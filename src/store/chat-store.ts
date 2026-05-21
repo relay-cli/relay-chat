@@ -36,11 +36,21 @@ export class ChatStore {
   }
 
   setSystemPrompt(systemPrompt?: string): void {
-    this.#updateConversation(systemPrompt === undefined ? {systemPrompt: undefined} : {systemPrompt});
+    if (systemPrompt !== undefined) {
+      this.#updateConversation({systemPrompt});
+      return;
+    }
+    const {systemPrompt: _removed, ...conversation} = this.#snapshot.conversation;
+    this.#set({...this.#snapshot, conversation: {...conversation, updatedAt: new Date().toISOString()}});
   }
 
   setModel(model?: string): void {
-    this.#updateConversation(model === undefined ? {model: undefined} : {model});
+    if (model !== undefined) {
+      this.#updateConversation({model});
+      return;
+    }
+    const {model: _removed, ...conversation} = this.#snapshot.conversation;
+    this.#set({...this.#snapshot, conversation: {...conversation, updatedAt: new Date().toISOString()}});
   }
 
   addMessage(message: ChatMessage): void {

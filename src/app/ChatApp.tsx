@@ -54,7 +54,7 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
     store.clearNotice();
     const command = parseSlashCommand(value);
     if (command !== undefined) {
-      report(executeSlashCommand(command, {store, session, cwd, setHelp: setShowHelp, setTheme: setThemeName, onQuit: quit}));
+      report(executeSlashCommand(command, {store, session, setHelp: setShowHelp, setTheme: setThemeName, onQuit: quit, ...(cwd === undefined ? {} : {cwd})}));
       return;
     }
     const activeEdit = editingId;
@@ -90,7 +90,10 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
     if (input === 'r' && !streaming) return report(session.regenerate());
     if (input === 'y' && !streaming) return report(session.retry());
     if (input === 'n' && !streaming) {
-      store.replaceConversation(createConversation({model: snapshot.conversation.model, systemPrompt: snapshot.conversation.systemPrompt}));
+      store.replaceConversation(createConversation({
+        ...(snapshot.conversation.model === undefined ? {} : {model: snapshot.conversation.model}),
+        ...(snapshot.conversation.systemPrompt === undefined ? {} : {systemPrompt: snapshot.conversation.systemPrompt}),
+      }));
       setDraft('');
       setEditingId(undefined);
       return;

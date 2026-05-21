@@ -6,7 +6,7 @@ import type {ChatRequest, ChatTransport} from '../transport/types.js';
 export class ChatSession {
   readonly #store: ChatStore;
   #transport: ChatTransport;
-  #activeController?: AbortController;
+  #activeController: AbortController | undefined;
 
   constructor(store: ChatStore, transport: ChatTransport) {
     this.#store = store;

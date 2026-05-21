@@ -28,7 +28,10 @@ export const executeSlashCommand = async (
       return;
     case 'new':
       if (session.isStreaming) throw new Error('Cancel the active reply before starting another conversation.');
-      store.replaceConversation(createConversation({model: conversation.model, systemPrompt: conversation.systemPrompt}));
+      store.replaceConversation(createConversation({
+        ...(conversation.model === undefined ? {} : {model: conversation.model}),
+        ...(conversation.systemPrompt === undefined ? {} : {systemPrompt: conversation.systemPrompt}),
+      }));
       store.setNotice('Started a new conversation.');
       return;
     case 'clear':

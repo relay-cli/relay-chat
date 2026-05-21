@@ -12,7 +12,7 @@ export interface MarkdownTextProps {
 export const MarkdownText = ({source, theme}: MarkdownTextProps) => (
   <Box flexDirection="column">
     {parseMarkdownBlocks(source).map((block, index) => {
-      if (block.type === 'code') return <CodeBlock key={index} code={block.code} language={block.language} theme={theme} />;
+      if (block.type === 'code') return <CodeBlock key={index} code={block.code} theme={theme} {...(block.language === undefined ? {} : {language: block.language})} />;
       if (block.type === 'heading') return <Text key={index} bold color={theme.text}>{block.text}</Text>;
       if (block.type === 'quote') return <Text key={index} color={theme.muted}>│ {block.text}</Text>;
       if (block.type === 'rule') return <Text key={index} color={theme.rule}>────────────────────────</Text>;

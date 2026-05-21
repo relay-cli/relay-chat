@@ -21,8 +21,8 @@ export const runInteractive = async (options: InteractiveOptions): Promise<numbe
       store={options.store}
       session={options.session}
       transportName={options.transportName}
-      cwd={options.cwd}
       onQuit={() => close?.()}
+      {...(options.cwd === undefined ? {} : {cwd: options.cwd})}
     />,
     {exitOnCtrlC: false},
   );
