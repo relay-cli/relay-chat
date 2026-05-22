@@ -39,6 +39,12 @@ export class CommandTransport implements ChatTransport {
       terminateCommand(child);
     };
     signal.addEventListener('abort', abort, {once: true});
+    const exitPromise = new Promise<{code: number | null; signal: NodeJS.Signals | null}>(
+      (resolve, reject) => {
+        child.once('error', reject);
+        child.once('close', (code, closeSignal) => resolve({code, signal: closeSignal}));
+      },
+    );
 
     try {
       child.stdin.end(encodeRequest(request));
@@ -49,12 +55,7 @@ export class CommandTransport implements ChatTransport {
         if (chunk.type === 'error') throw new Error(chunk.message);
         yield chunk;
       }
-      const exit = await new Promise<{code: number | null; signal: NodeJS.Signals | null}>(
-        (resolve, reject) => {
-          child.once('error', reject);
-          child.once('close', (code, closeSignal) => resolve({code, signal: closeSignal}));
-        },
-      );
+      const exit = await exitPromise;
       if (signal.aborted) throw signal.reason;
       if (exit.code !== 0) {
         const detail = stderr.trim();
