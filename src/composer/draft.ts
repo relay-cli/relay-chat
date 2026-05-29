@@ -31,8 +31,10 @@ export const deleteWordBackward = (state: DraftState): DraftState => {
   const before = state.value.slice(0, state.cursor);
   const start = before.search(/\S+\s*$/);
   if (start === -1) return {...state, value: state.value.slice(state.cursor), cursor: 0};
+  const prefix = state.value.slice(0, start);
+  const suffix = state.value.slice(state.cursor).replace(/^\s+/, prefix.endsWith(' ') ? '' : ' ');
   return {
-    value: `${state.value.slice(0, start)}${state.value.slice(state.cursor)}`,
+    value: `${prefix}${suffix}`,
     cursor: start,
   };
 };
