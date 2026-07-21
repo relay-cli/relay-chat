@@ -12,7 +12,10 @@ describe('ChatStore', () => {
     store.appendDelta('a1', 'hello');
     store.completeMessage('a1', {usage: {outputTokens: 2}, latencyMs: 20});
     expect(store.getSnapshot().conversation.messages[0]).toMatchObject({
-      content: 'hello', status: 'complete', usage: {outputTokens: 2}, latencyMs: 20,
+      content: 'hello',
+      status: 'complete',
+      usage: {outputTokens: 2},
+      latencyMs: 20,
     });
     expect(store.getSnapshot().activeAssistantId).toBeUndefined();
     expect(listener).toHaveBeenCalled();

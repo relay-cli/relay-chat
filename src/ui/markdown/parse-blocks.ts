@@ -24,7 +24,11 @@ export const parseMarkdownBlocks = (source: string): readonly MarkdownBlock[] =>
         index += 1;
       }
       if (index < lines.length) index += 1;
-      blocks.push({type: 'code', code: code.join('\n'), ...(language === undefined ? {} : {language})});
+      blocks.push({
+        type: 'code',
+        code: code.join('\n'),
+        ...(language === undefined ? {} : {language}),
+      });
       continue;
     }
     const heading = headingPattern.exec(line);

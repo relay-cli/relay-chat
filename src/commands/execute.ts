@@ -1,5 +1,11 @@
 import {createConversation, estimateConversationTokens} from '../model/index.js';
-import {defaultConversationPath, defaultExportPath, exportConversation, loadConversation, saveConversation} from '../persistence/index.js';
+import {
+  defaultConversationPath,
+  defaultExportPath,
+  exportConversation,
+  loadConversation,
+  saveConversation,
+} from '../persistence/index.js';
 import type {ChatSession} from '../session/index.js';
 import type {ChatStore} from '../store/index.js';
 import {chatThemes} from '../ui/theme.js';
@@ -27,11 +33,16 @@ export const executeSlashCommand = async (
       context.setHelp(true);
       return;
     case 'new':
-      if (session.isStreaming) throw new Error('Cancel the active reply before starting another conversation.');
-      store.replaceConversation(createConversation({
-        ...(conversation.model === undefined ? {} : {model: conversation.model}),
-        ...(conversation.systemPrompt === undefined ? {} : {systemPrompt: conversation.systemPrompt}),
-      }));
+      if (session.isStreaming)
+        throw new Error('Cancel the active reply before starting another conversation.');
+      store.replaceConversation(
+        createConversation({
+          ...(conversation.model === undefined ? {} : {model: conversation.model}),
+          ...(conversation.systemPrompt === undefined
+            ? {}
+            : {systemPrompt: conversation.systemPrompt}),
+        }),
+      );
       store.setNotice('Started a new conversation.');
       return;
     case 'clear':
@@ -51,7 +62,9 @@ export const executeSlashCommand = async (
     case 'model':
       if (command.rest === '') throw new Error('Usage: /model <name|off>');
       store.setModel(command.rest === 'off' ? undefined : command.rest);
-      store.setNotice(command.rest === 'off' ? 'Model label cleared.' : `Model set to ${command.rest}.`);
+      store.setNotice(
+        command.rest === 'off' ? 'Model label cleared.' : `Model set to ${command.rest}.`,
+      );
       return;
     case 'save': {
       const path = chosenPath(command) ?? defaultConversationPath(conversation.title, context.cwd);
@@ -80,13 +93,16 @@ export const executeSlashCommand = async (
       return;
     case 'theme': {
       const name = chosenPath(command);
-      if (name === undefined || !chatThemes.has(name)) throw new Error('Usage: /theme <relay|mono>');
+      if (name === undefined || !chatThemes.has(name))
+        throw new Error('Usage: /theme <relay|mono>');
       context.setTheme(name);
       store.setNotice(`Theme set to ${name}.`);
       return;
     }
     case 'stats':
-      store.setNotice(`${conversation.messages.length} messages · approximately ${estimateConversationTokens(conversation.messages)} tokens`);
+      store.setNotice(
+        `${conversation.messages.length} messages · approximately ${estimateConversationTokens(conversation.messages)} tokens`,
+      );
       return;
     case 'quit':
       context.onQuit();

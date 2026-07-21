@@ -33,7 +33,10 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
   const [themeName, setThemeName] = useState('relay');
   const theme = chatThemes.get(themeName) ?? relayTheme;
   const streaming = snapshot.activeAssistantId !== undefined;
-  const visibleCount = useMemo(() => Math.max(1, Math.min(6, Math.floor((terminal.rows - 10) / 6))), [terminal.rows]);
+  const visibleCount = useMemo(
+    () => Math.max(1, Math.min(6, Math.floor((terminal.rows - 10) / 6))),
+    [terminal.rows],
+  );
 
   useEffect(() => {
     if (offsetFromEnd === 0) setOffsetFromEnd(0);
@@ -54,13 +57,24 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
     store.clearNotice();
     const command = parseSlashCommand(value);
     if (command !== undefined) {
-      report(executeSlashCommand(command, {store, session, setHelp: setShowHelp, setTheme: setThemeName, onQuit: quit, ...(cwd === undefined ? {} : {cwd})}));
+      report(
+        executeSlashCommand(command, {
+          store,
+          session,
+          setHelp: setShowHelp,
+          setTheme: setThemeName,
+          onQuit: quit,
+          ...(cwd === undefined ? {} : {cwd}),
+        }),
+      );
       return;
     }
     const activeEdit = editingId;
     setEditingId(undefined);
     setOffsetFromEnd(0);
-    report(activeEdit === undefined ? session.send(value) : session.editAndResend(activeEdit, value));
+    report(
+      activeEdit === undefined ? session.send(value) : session.editAndResend(activeEdit, value),
+    );
   };
 
   useInput((input, key) => {
@@ -73,7 +87,10 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
       }
       return;
     }
-    if (key.pageUp) return setOffsetFromEnd((current) => Math.min(snapshot.conversation.messages.length - 1, current + visibleCount));
+    if (key.pageUp)
+      return setOffsetFromEnd((current) =>
+        Math.min(snapshot.conversation.messages.length - 1, current + visibleCount),
+      );
     if (key.pageDown) return setOffsetFromEnd((current) => Math.max(0, current - visibleCount));
     if (!key.ctrl) return;
     if (input === 'c') return quit();
@@ -90,29 +107,62 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
     if (input === 'r' && !streaming) return report(session.regenerate());
     if (input === 'y' && !streaming) return report(session.retry());
     if (input === 'n' && !streaming) {
-      store.replaceConversation(createConversation({
-        ...(snapshot.conversation.model === undefined ? {} : {model: snapshot.conversation.model}),
-        ...(snapshot.conversation.systemPrompt === undefined ? {} : {systemPrompt: snapshot.conversation.systemPrompt}),
-      }));
+      store.replaceConversation(
+        createConversation({
+          ...(snapshot.conversation.model === undefined
+            ? {}
+            : {model: snapshot.conversation.model}),
+          ...(snapshot.conversation.systemPrompt === undefined
+            ? {}
+            : {systemPrompt: snapshot.conversation.systemPrompt}),
+        }),
+      );
       setDraft('');
       setEditingId(undefined);
       return;
     }
     if (input === 's') {
       const path = defaultConversationPath(snapshot.conversation.title, cwd);
-      return report(saveConversation(path, snapshot.conversation).then(() => store.setNotice(`Saved ${path}`)));
+      return report(
+        saveConversation(path, snapshot.conversation).then(() => store.setNotice(`Saved ${path}`)),
+      );
     }
   });
 
   return (
     <Box flexDirection="column">
-      <ChatHeader conversation={snapshot.conversation} transportName={transportName} theme={theme} />
+      <ChatHeader
+        conversation={snapshot.conversation}
+        transportName={transportName}
+        theme={theme}
+      />
       <Box flexDirection="column" paddingY={1}>
-        {showHelp ? <HelpOverlay theme={theme} /> : <MessageFeed messages={snapshot.conversation.messages} visibleCount={visibleCount} offsetFromEnd={offsetFromEnd} theme={theme} />}
+        {showHelp ? (
+          <HelpOverlay theme={theme} />
+        ) : (
+          <MessageFeed
+            messages={snapshot.conversation.messages}
+            visibleCount={visibleCount}
+            offsetFromEnd={offsetFromEnd}
+            theme={theme}
+          />
+        )}
       </Box>
       <Notice message={snapshot.notice} theme={theme} />
-      <Composer value={draft} onChange={setDraft} onSubmit={submit} disabled={streaming || showHelp} editing={editingId !== undefined} theme={theme} />
-      <StatusBar conversation={snapshot.conversation} streaming={streaming} offsetFromEnd={offsetFromEnd} theme={theme} />
+      <Composer
+        value={draft}
+        onChange={setDraft}
+        onSubmit={submit}
+        disabled={streaming || showHelp}
+        editing={editingId !== undefined}
+        theme={theme}
+      />
+      <StatusBar
+        conversation={snapshot.conversation}
+        streaming={streaming}
+        offsetFromEnd={offsetFromEnd}
+        theme={theme}
+      />
     </Box>
   );
 };

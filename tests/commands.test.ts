@@ -4,7 +4,9 @@ import {commandNames, parseSlashCommand} from '../src/commands/index.js';
 describe('slash commands', () => {
   it('parses quoted arguments without changing the rest text', () => {
     expect(parseSlashCommand('/save "my chats/test.json"')).toEqual({
-      name: 'save', arguments: ['my chats/test.json'], rest: '"my chats/test.json"',
+      name: 'save',
+      arguments: ['my chats/test.json'],
+      rest: '"my chats/test.json"',
     });
     expect(parseSlashCommand('hello')).toBeUndefined();
   });

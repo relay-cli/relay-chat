@@ -8,7 +8,8 @@ describe('EchoTransport', () => {
     for await (const chunk of transport.stream(
       {conversationId: 'c1', messages: [{role: 'user', content: 'hello'}]},
       new AbortController().signal,
-    )) chunks.push(chunk);
+    ))
+      chunks.push(chunk);
     expect(chunks.filter(({type}) => type === 'delta').length).toBeGreaterThan(0);
     expect(chunks.at(-1)).toEqual({type: 'done'});
   });

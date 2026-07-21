@@ -1,6 +1,12 @@
 import {useRef, useState} from 'react';
 import {Box, Text, useInput} from 'ink';
-import {deleteBackward, deleteForward, deleteWordBackward, insertText, moveCursor} from './draft.js';
+import {
+  deleteBackward,
+  deleteForward,
+  deleteWordBackward,
+  insertText,
+  moveCursor,
+} from './draft.js';
 import {DraftHistory} from './history.js';
 import type {ChatTheme} from '../ui/theme.js';
 
@@ -13,7 +19,14 @@ export interface ComposerProps {
   theme: ChatTheme;
 }
 
-export const Composer = ({value, onChange, onSubmit, disabled = false, editing = false, theme}: ComposerProps) => {
+export const Composer = ({
+  value,
+  onChange,
+  onSubmit,
+  disabled = false,
+  editing = false,
+  theme,
+}: ComposerProps) => {
   const [cursor, setCursor] = useState(value.length);
   const history = useRef(new DraftHistory());
   const update = (next: {value: string; cursor: number}): void => {
@@ -54,16 +67,27 @@ export const Composer = ({value, onChange, onSubmit, disabled = false, editing =
   const after = value.slice(safeCursor + (safeCursor < value.length ? 1 : 0));
 
   return (
-    <Box borderStyle="single" borderColor={editing ? theme.warning : theme.user} paddingX={1} flexDirection="column">
-      <Text color={editing ? theme.warning : theme.user}>{editing ? 'EDIT MESSAGE' : 'MESSAGE'}</Text>
+    <Box
+      borderStyle="single"
+      borderColor={editing ? theme.warning : theme.user}
+      paddingX={1}
+      flexDirection="column"
+    >
+      <Text color={editing ? theme.warning : theme.user}>
+        {editing ? 'EDIT MESSAGE' : 'MESSAGE'}
+      </Text>
       {value === '' && !disabled ? (
         <Text color={theme.muted}>Write a message…</Text>
       ) : (
         <Text color={disabled ? theme.muted : theme.text}>
-          {before}<Text inverse={!disabled}>{current}</Text>{after}
+          {before}
+          <Text inverse={!disabled}>{current}</Text>
+          {after}
         </Text>
       )}
-      <Text color={theme.muted}>{disabled ? 'Reply streaming · Esc cancels' : 'Enter sends · Ctrl+J adds a line'}</Text>
+      <Text color={theme.muted}>
+        {disabled ? 'Reply streaming · Esc cancels' : 'Enter sends · Ctrl+J adds a line'}
+      </Text>
     </Box>
   );
 };

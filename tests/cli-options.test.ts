@@ -3,8 +3,12 @@ import {parseCliOptions} from '../src/cli/options.js';
 
 describe('CLI options', () => {
   it('separates Relay options from a model command', () => {
-    expect(parseCliOptions(['--plain', '--prompt', 'hello', '--', 'node', 'model.mjs'])).toMatchObject({
-      plain: true, prompt: 'hello', command: ['node', 'model.mjs'],
+    expect(
+      parseCliOptions(['--plain', '--prompt', 'hello', '--', 'node', 'model.mjs']),
+    ).toMatchObject({
+      plain: true,
+      prompt: 'hello',
+      command: ['node', 'model.mjs'],
     });
   });
 

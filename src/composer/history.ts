@@ -21,6 +21,8 @@ export class DraftHistory {
   next(current: string): string {
     if (this.#entries.length === 0) return current;
     this.#index = Math.min(this.#entries.length, this.#index + 1);
-    return this.#index === this.#entries.length ? this.#pending : (this.#entries[this.#index] ?? current);
+    return this.#index === this.#entries.length
+      ? this.#pending
+      : (this.#entries[this.#index] ?? current);
   }
 }

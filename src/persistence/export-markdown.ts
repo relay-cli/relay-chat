@@ -2,7 +2,8 @@ import type {ChatMessage, Conversation} from '../model/index.js';
 
 const heading = (message: ChatMessage): string => {
   if (message.role === 'user') return 'You';
-  if (message.role === 'assistant') return message.model === undefined ? 'Assistant' : message.model;
+  if (message.role === 'assistant')
+    return message.model === undefined ? 'Assistant' : message.model;
   return 'System';
 };
 

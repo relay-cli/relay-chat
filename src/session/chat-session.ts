@@ -1,4 +1,9 @@
-import {createMessage, lastAssistantMessage, lastUserMessage, titleFromMessage} from '../model/index.js';
+import {
+  createMessage,
+  lastAssistantMessage,
+  lastUserMessage,
+  titleFromMessage,
+} from '../model/index.js';
 import type {TokenUsage} from '../model/index.js';
 import type {ChatStore} from '../store/index.js';
 import type {ChatRequest, ChatTransport} from '../transport/types.js';
@@ -105,7 +110,11 @@ export class ChatSession {
       });
     } catch (error) {
       if (controller.signal.aborted) this.#store.cancelMessage(assistant.id);
-      else this.#store.failMessage(assistant.id, error instanceof Error ? error.message : String(error));
+      else
+        this.#store.failMessage(
+          assistant.id,
+          error instanceof Error ? error.message : String(error),
+        );
     } finally {
       if (this.#activeController === controller) this.#activeController = undefined;
     }

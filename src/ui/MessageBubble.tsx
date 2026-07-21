@@ -17,15 +17,32 @@ const roleLabel = (message: ChatMessage): string => {
 };
 
 export const MessageBubble = ({message, theme, selected = false}: MessageBubbleProps) => {
-  const accent = message.role === 'user' ? theme.user : message.role === 'assistant' ? theme.assistant : theme.muted;
+  const accent =
+    message.role === 'user'
+      ? theme.user
+      : message.role === 'assistant'
+        ? theme.assistant
+        : theme.muted;
   const meta = formatMessageMeta(message);
   return (
-    <Box flexDirection="column" borderStyle={selected ? 'double' : 'single'} borderColor={accent} paddingX={1} marginBottom={1}>
+    <Box
+      flexDirection="column"
+      borderStyle={selected ? 'double' : 'single'}
+      borderColor={accent}
+      paddingX={1}
+      marginBottom={1}
+    >
       <Box justifyContent="space-between">
-        <Text bold color={accent}>{roleLabel(message)}</Text>
+        <Text bold color={accent}>
+          {roleLabel(message)}
+        </Text>
         {meta !== '' && <Text color={theme.muted}>{meta}</Text>}
       </Box>
-      {message.content === '' && message.status === 'streaming' ? <Text color={theme.muted}>Thinking…</Text> : <MarkdownText source={message.content} theme={theme} />}
+      {message.content === '' && message.status === 'streaming' ? (
+        <Text color={theme.muted}>Thinking…</Text>
+      ) : (
+        <MarkdownText source={message.content} theme={theme} />
+      )}
       {message.error !== undefined && <Text color={theme.danger}>{message.error}</Text>}
     </Box>
   );

@@ -16,7 +16,9 @@ const main = async (): Promise<void> => {
   try {
     options = parseCliOptions(process.argv.slice(2));
   } catch (error) {
-    process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n\n${helpText}`);
+    process.stderr.write(
+      `${error instanceof Error ? error.message : String(error)}\n\n${helpText}`,
+    );
     process.exitCode = 2;
     return;
   }
@@ -28,11 +30,14 @@ const main = async (): Promise<void> => {
     return;
   }
 
-  const loaded = options.loadPath === undefined ? undefined : await loadConversation(options.loadPath);
-  const conversation = loaded ?? createConversation({
-    ...(options.model === undefined ? {} : {model: options.model}),
-    ...(options.systemPrompt === undefined ? {} : {systemPrompt: options.systemPrompt}),
-  });
+  const loaded =
+    options.loadPath === undefined ? undefined : await loadConversation(options.loadPath);
+  const conversation =
+    loaded ??
+    createConversation({
+      ...(options.model === undefined ? {} : {model: options.model}),
+      ...(options.systemPrompt === undefined ? {} : {systemPrompt: options.systemPrompt}),
+    });
   const store = new ChatStore(conversation);
   const transport: ChatTransport = options.demo
     ? new EchoTransport()

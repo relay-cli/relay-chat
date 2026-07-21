@@ -12,13 +12,26 @@ export interface MessageFeedProps {
   theme: ChatTheme;
 }
 
-export const MessageFeed = ({messages, visibleCount, offsetFromEnd, selectedId, theme}: MessageFeedProps) => {
+export const MessageFeed = ({
+  messages,
+  visibleCount,
+  offsetFromEnd,
+  selectedId,
+  theme,
+}: MessageFeedProps) => {
   const visible = messageWindow(messages, visibleCount, offsetFromEnd);
   if (visible.length === 0) return <Text color={theme.muted}>Start a conversation below.</Text>;
   return (
     <Box flexDirection="column">
       {visible[0] !== messages[0] && <Text color={theme.muted}>↑ earlier messages</Text>}
-      {visible.map((message) => <MessageBubble key={message.id} message={message} theme={theme} selected={message.id === selectedId} />)}
+      {visible.map((message) => (
+        <MessageBubble
+          key={message.id}
+          message={message}
+          theme={theme}
+          selected={message.id === selectedId}
+        />
+      ))}
       {visible.at(-1) !== messages.at(-1) && <Text color={theme.muted}>↓ newer messages</Text>}
     </Box>
   );

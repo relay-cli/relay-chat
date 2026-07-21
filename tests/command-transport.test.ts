@@ -11,7 +11,8 @@ describe('CommandTransport', () => {
     for await (const chunk of transport.stream(
       {conversationId: 'c1', messages: [{role: 'user', content: 'hello'}]},
       new AbortController().signal,
-    )) chunks.push(chunk);
+    ))
+      chunks.push(chunk);
     expect(chunks).toEqual([
       {type: 'delta', text: 'seen 1'},
       {type: 'usage', usage: {outputTokens: 2}},

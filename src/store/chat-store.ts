@@ -41,7 +41,10 @@ export class ChatStore {
       return;
     }
     const {systemPrompt: _removed, ...conversation} = this.#snapshot.conversation;
-    this.#set({...this.#snapshot, conversation: {...conversation, updatedAt: new Date().toISOString()}});
+    this.#set({
+      ...this.#snapshot,
+      conversation: {...conversation, updatedAt: new Date().toISOString()},
+    });
   }
 
   setModel(model?: string): void {
@@ -50,7 +53,10 @@ export class ChatStore {
       return;
     }
     const {model: _removed, ...conversation} = this.#snapshot.conversation;
-    this.#set({...this.#snapshot, conversation: {...conversation, updatedAt: new Date().toISOString()}});
+    this.#set({
+      ...this.#snapshot,
+      conversation: {...conversation, updatedAt: new Date().toISOString()},
+    });
   }
 
   addMessage(message: ChatMessage): void {

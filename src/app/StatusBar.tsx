@@ -12,7 +12,12 @@ export interface StatusBarProps {
 
 export const StatusBar = ({conversation, streaming, offsetFromEnd, theme}: StatusBarProps) => (
   <Box justifyContent="space-between">
-    <Text color={streaming ? theme.assistant : theme.muted}>{streaming ? 'streaming' : 'ready'} · {conversation.messages.length} messages · ~{estimateConversationTokens(conversation.messages)} tokens</Text>
-    <Text color={theme.muted}>{offsetFromEnd > 0 ? `${offsetFromEnd} from latest · ` : ''}Ctrl+H help</Text>
+    <Text color={streaming ? theme.assistant : theme.muted}>
+      {streaming ? 'streaming' : 'ready'} · {conversation.messages.length} messages · ~
+      {estimateConversationTokens(conversation.messages)} tokens
+    </Text>
+    <Text color={theme.muted}>
+      {offsetFromEnd > 0 ? `${offsetFromEnd} from latest · ` : ''}Ctrl+H help
+    </Text>
   </Box>
 );
