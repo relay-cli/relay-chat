@@ -23,6 +23,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "overrides": {
+    "esbuild": "0.28.2"
+  },
   "engines": {
     "node": ">=20"
   },
@@ -45,6 +48,7 @@
     "dev": "tsx src/cli.tsx",
     "demo": "tsx src/cli.tsx --demo",
     "demo:plain": "tsx src/cli.tsx --demo --prompt \"Explain why streaming is useful in a terminal chat.\" --plain",
+    "demo:command": "tsx src/cli.tsx --prompt \"Show me the command bridge.\" -- node examples/jsonl-model.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
@@ -59,6 +63,7 @@
     "strip-ansi": "^7.2.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.3",
     "@types/react": "^19.3.0",
     "eslint": "^10.11.0",
