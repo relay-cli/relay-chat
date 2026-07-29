@@ -5,7 +5,13 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
   {
-    ignores: ['dist/**', 'coverage/**'],
+    ignores: [
+      'dist/**',
+      'coverage/**',
+      'eslint.config.js',
+      'examples/**/*.mjs',
+      'tests/fixtures/**',
+    ],
   },
   {
     languageOptions: {

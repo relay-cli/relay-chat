@@ -7,8 +7,8 @@ export interface TerminalSize {
 
 export const useTerminalSize = (): TerminalSize => {
   const read = (): TerminalSize => ({
-    columns: process.stdout.columns ?? 80,
-    rows: process.stdout.rows ?? 24,
+    columns: process.stdout.columns || 80,
+    rows: process.stdout.rows || 24,
   });
   const [size, setSize] = useState(read);
   useEffect(() => {

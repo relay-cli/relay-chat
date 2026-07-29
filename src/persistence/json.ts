@@ -11,6 +11,7 @@ export const parseConversation = (source: string): Conversation => {
   } catch (error) {
     throw new Error(
       `Conversation JSON could not be parsed: ${error instanceof Error ? error.message : String(error)}`,
+      {cause: error},
     );
   }
   return assertConversation(value);

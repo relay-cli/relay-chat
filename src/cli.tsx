@@ -44,7 +44,7 @@ const main = async (): Promise<void> => {
     : new CommandTransport({command: options.command});
   const session = new ChatSession(store, transport);
 
-  if (options.plain || process.stdout.isTTY !== true || process.stdin.isTTY !== true) {
+  if (options.plain || !process.stdout.isTTY || !process.stdin.isTTY) {
     if (options.prompt === undefined) {
       process.stderr.write('--prompt is required outside the interactive interface.\n');
       process.exitCode = 2;

@@ -27,7 +27,8 @@ export class ChatStore {
   }
 
   clearNotice(): void {
-    const {notice: _notice, ...snapshot} = this.#snapshot;
+    const snapshot = {...this.#snapshot};
+    delete snapshot.notice;
     this.#set(snapshot);
   }
 
@@ -40,11 +41,10 @@ export class ChatStore {
       this.#updateConversation({systemPrompt});
       return;
     }
-    const {systemPrompt: _removed, ...conversation} = this.#snapshot.conversation;
-    this.#set({
-      ...this.#snapshot,
-      conversation: {...conversation, updatedAt: new Date().toISOString()},
-    });
+    const conversation = {...this.#snapshot.conversation};
+    delete conversation.systemPrompt;
+    conversation.updatedAt = new Date().toISOString();
+    this.#set({...this.#snapshot, conversation});
   }
 
   setModel(model?: string): void {
@@ -52,11 +52,10 @@ export class ChatStore {
       this.#updateConversation({model});
       return;
     }
-    const {model: _removed, ...conversation} = this.#snapshot.conversation;
-    this.#set({
-      ...this.#snapshot,
-      conversation: {...conversation, updatedAt: new Date().toISOString()},
-    });
+    const conversation = {...this.#snapshot.conversation};
+    delete conversation.model;
+    conversation.updatedAt = new Date().toISOString();
+    this.#set({...this.#snapshot, conversation});
   }
 
   addMessage(message: ChatMessage): void {
