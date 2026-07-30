@@ -43,7 +43,6 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
   }, [snapshot.conversation.messages.length, offsetFromEnd]);
 
   const quit = (): void => {
-    if (streaming) session.cancel();
     onQuit?.();
   };
 
@@ -93,7 +92,11 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
       );
     if (key.pageDown) return setOffsetFromEnd((current) => Math.max(0, current - visibleCount));
     if (!key.ctrl) return;
-    if (input === 'c') return quit();
+    if (input === 'c') {
+      if (streaming) session.cancel();
+      else quit();
+      return;
+    }
     if (input === 'h') return setShowHelp((visible) => !visible);
     if (input === 'j' && !streaming) return setDraft((current) => `${current}\n`);
     if (input === 'e' && !streaming) {
@@ -150,6 +153,7 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
       </Box>
       <Notice message={snapshot.notice} theme={theme} />
       <Composer
+        key={editingId ?? 'composer'}
         value={draft}
         onChange={setDraft}
         onSubmit={submit}
