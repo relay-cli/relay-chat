@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest a focused improvement to terminal chat.
+body:
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use case
+      description: Describe the chat workflow that is currently difficult.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: This request concerns chat rather than agent or tool execution.
+          required: true
