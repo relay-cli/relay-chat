@@ -45,20 +45,20 @@ See [the command protocol](./docs/command-protocol.md) for the request and respo
 
 ## Conversation controls
 
-| Key | Action |
-| --- | --- |
-| `Enter` | Send the current draft |
-| `Ctrl+J` | Insert a newline |
-| `↑`, `↓` | Browse submitted drafts |
-| `Page Up`, `Page Down` | Move through the conversation |
-| `Escape` | Cancel a reply or leave edit mode |
-| `Ctrl+E` | Edit and resend the latest user message |
-| `Ctrl+R` | Regenerate the latest assistant reply |
-| `Ctrl+Y` | Retry a failed or cancelled reply |
-| `Ctrl+S` | Save the conversation |
-| `Ctrl+N` | Start a new conversation |
-| `Ctrl+H` | Toggle help |
-| `Ctrl+C` | Cancel an active reply, or quit while idle |
+| Key                    | Action                                     |
+| ---------------------- | ------------------------------------------ |
+| `Enter`                | Send the current draft                     |
+| `Ctrl+J`               | Insert a newline                           |
+| `↑`, `↓`               | Browse submitted drafts                    |
+| `Page Up`, `Page Down` | Move through the conversation              |
+| `Escape`               | Cancel a reply or leave edit mode          |
+| `Ctrl+E`               | Edit and resend the latest user message    |
+| `Ctrl+R`               | Regenerate the latest assistant reply      |
+| `Ctrl+Y`               | Retry a failed or cancelled reply          |
+| `Ctrl+S`               | Save the conversation                      |
+| `Ctrl+N`               | Start a new conversation                   |
+| `Ctrl+H`               | Toggle help                                |
+| `Ctrl+C`               | Cancel an active reply, or quit while idle |
 
 Slash commands manage titles, system prompts, model labels, themes, files, exports, retry, and regeneration. The complete list is in [the slash-command reference](./docs/slash-commands.md).
 
@@ -68,12 +68,7 @@ Applications can render the complete interface or assemble their own from the ex
 
 ```tsx
 import {render} from 'ink';
-import {
-  ChatApp,
-  ChatSession,
-  ChatStore,
-  EchoTransport,
-} from '@relay-cli/chat';
+import {ChatApp, ChatSession, ChatStore, EchoTransport} from '@relay-cli/chat';
 
 const store = new ChatStore();
 const transport = new EchoTransport();
