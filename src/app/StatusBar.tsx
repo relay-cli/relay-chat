@@ -17,7 +17,7 @@ export const StatusBar = ({conversation, streaming, offsetFromEnd, theme}: Statu
       {estimateConversationTokens(conversation.messages)} tokens
     </Text>
     <Text color={theme.muted}>
-      {offsetFromEnd > 0 ? `${offsetFromEnd} from latest · ` : ''}Ctrl+H help
+      {offsetFromEnd > 0 ? `${offsetFromEnd} from latest · ` : ''}Ctrl+G help
     </Text>
   </Box>
 );

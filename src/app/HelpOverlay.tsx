@@ -16,6 +16,7 @@ export const HelpOverlay = ({theme}: {theme: ChatTheme}) => (
     <Text color={theme.text}>Ctrl+Y retry a failed reply</Text>
     <Text color={theme.text}>Ctrl+S save conversation</Text>
     <Text color={theme.text}>Ctrl+N start a new conversation</Text>
+    <Text color={theme.text}>Ctrl+G toggle this reference</Text>
     <Text color={theme.text}>Ctrl+C cancel or quit</Text>
     <Text color={theme.muted}>
       Slash commands: /help /new /title /system /model /save /load /export /retry /regenerate /theme

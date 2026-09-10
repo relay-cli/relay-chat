@@ -12,7 +12,7 @@
 | `Ctrl+Y`               | Retry a failed or cancelled reply          |
 | `Ctrl+S`               | Save the conversation                      |
 | `Ctrl+N`               | Start a new conversation                   |
-| `Ctrl+H`               | Toggle help                                |
+| `Ctrl+G`               | Toggle help                                |
 | `Ctrl+C`               | Cancel an active reply, or quit when idle  |
 
 The input history does not record empty drafts or consecutive duplicates.

@@ -97,7 +97,7 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
       else quit();
       return;
     }
-    if (input === 'h') return setShowHelp((visible) => !visible);
+    if (input === 'g') return setShowHelp((visible) => !visible);
     if (input === 'j' && !streaming) return setDraft((current) => `${current}\n`);
     if (input === 'e' && !streaming) {
       const message = lastUserMessage(snapshot.conversation);

@@ -11,7 +11,7 @@ npm install
 npm run demo
 ```
 
-The demo streams deterministic replies without downloading a model or contacting a service. Write a message and press `Enter`. `Ctrl+J` adds a line, `Escape` cancels a reply, `Ctrl+H` opens the complete keyboard reference, and `Ctrl+C` exits while idle.
+The demo streams deterministic replies without downloading a model or contacting a service. Write a message and press `Enter`. `Ctrl+J` adds a line, `Escape` cancels a reply, `Ctrl+G` opens the complete keyboard reference, and `Ctrl+C` exits while idle.
 
 For a demonstration that prints one reply and exits:
 
@@ -57,7 +57,7 @@ See [the command protocol](./docs/command-protocol.md) for the request and respo
 | `Ctrl+Y`               | Retry a failed or cancelled reply          |
 | `Ctrl+S`               | Save the conversation                      |
 | `Ctrl+N`               | Start a new conversation                   |
-| `Ctrl+H`               | Toggle help                                |
+| `Ctrl+G`               | Toggle help                                |
 | `Ctrl+C`               | Cancel an active reply, or quit while idle |
 
 Slash commands manage titles, system prompts, model labels, themes, files, exports, retry, and regeneration. The complete list is in [the slash-command reference](./docs/slash-commands.md).
