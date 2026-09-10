@@ -158,6 +158,7 @@ export const ChatApp = ({store, session, transportName, cwd, onQuit}: ChatAppPro
         onChange={setDraft}
         onSubmit={submit}
         disabled={streaming || showHelp}
+        streaming={streaming}
         editing={editingId !== undefined}
         theme={theme}
       />

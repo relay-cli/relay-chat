@@ -15,6 +15,7 @@ export interface ComposerProps {
   onChange: (value: string) => void;
   onSubmit: (value: string) => void;
   disabled?: boolean;
+  streaming?: boolean;
   editing?: boolean;
   theme: ChatTheme;
 }
@@ -24,6 +25,7 @@ export const Composer = ({
   onChange,
   onSubmit,
   disabled = false,
+  streaming = false,
   editing = false,
   theme,
 }: ComposerProps) => {
@@ -86,7 +88,11 @@ export const Composer = ({
         </Text>
       )}
       <Text color={theme.muted}>
-        {disabled ? 'Reply streaming · Esc cancels' : 'Enter sends · Ctrl+J adds a line'}
+        {streaming
+          ? 'Reply streaming · Esc cancels'
+          : disabled
+            ? 'Help open · Ctrl+G closes it'
+            : 'Enter sends · Ctrl+J adds a line'}
       </Text>
     </Box>
   );
