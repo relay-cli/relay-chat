@@ -41,7 +41,11 @@ describe('ChatSession', () => {
       async *stream(_request, signal) {
         yield {type: 'delta', text: 'partial'};
         await new Promise<void>((_resolve, reject) => {
-          signal.addEventListener('abort', () => reject(signal.reason), {once: true});
+          signal.addEventListener(
+            'abort',
+            () => reject(signal.reason instanceof Error ? signal.reason : new Error('Cancelled')),
+            {once: true},
+          );
         });
       },
     };
