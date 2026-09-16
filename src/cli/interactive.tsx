@@ -34,6 +34,7 @@ export const runInteractive = async (options: InteractiveOptions): Promise<numbe
   await closed;
   options.session.cancel();
   app.unmount();
+  await app.waitUntilExit();
   process.off('SIGINT', interrupt);
   return 0;
 };
