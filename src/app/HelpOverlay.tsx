@@ -1,4 +1,5 @@
 import {Box, Text} from 'ink';
+import {commandNames} from '../commands/catalog.js';
 import type {ChatTheme} from '../ui/theme.js';
 
 export const HelpOverlay = ({theme}: {theme: ChatTheme}) => (
@@ -19,8 +20,7 @@ export const HelpOverlay = ({theme}: {theme: ChatTheme}) => (
     <Text color={theme.text}>Ctrl+G toggle this reference</Text>
     <Text color={theme.text}>Ctrl+C cancel or quit</Text>
     <Text color={theme.muted}>
-      Slash commands: /help /new /title /system /model /save /load /export /retry /regenerate /theme
-      /quit
+      Slash commands: {commandNames.map((name) => `/${name}`).join(' ')}
     </Text>
   </Box>
 );
