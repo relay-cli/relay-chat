@@ -14,12 +14,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/relay-cli/chat.git"
+    "url": "git+https://github.com/relay-cli/relay-chat.git"
   },
   "bugs": {
-    "url": "https://github.com/relay-cli/chat/issues"
+    "url": "https://github.com/relay-cli/relay-chat/issues"
   },
-  "homepage": "https://github.com/relay-cli/chat#readme",
+  "homepage": "https://github.com/relay-cli/relay-chat#readme",
   "publishConfig": {
     "access": "public"
   },
