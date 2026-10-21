@@ -4,7 +4,10 @@ import {join} from 'node:path';
 import {afterEach, describe, expect, it} from 'vitest';
 import {createConversation, createMessage} from '../src/model/index.js';
 import {
+  conversationToHtml,
   conversationToMarkdown,
+  conversationToText,
+  exportConversation,
   enableAutosave,
   loadConversation,
   saveConversation,
@@ -47,5 +50,35 @@ describe('conversation persistence', () => {
       messages: [createMessage('user', 'hello', {id: 'm1'})],
     };
     expect(conversationToMarkdown(conversation)).toContain('# Test\n\n## You\n\nhello');
+  });
+
+  it('exports plain text and escaped HTML by file extension', async () => {
+    const directory = await mkdtemp(join(tmpdir(), 'relay-chat-'));
+    directories.push(directory);
+    const conversation = {
+      ...createConversation({id: 'c1', title: 'Tags <b>'}),
+      messages: [
+        createMessage('user', 'is 1 < 2?', {id: 'm1'}),
+        createMessage('assistant', 'yes', {id: 'm2', model: 'local'}),
+      ],
+    };
+    expect(conversationToText(conversation)).toBe(
+      'Tags <b>\n========\n\nYou:\nis 1 < 2?\n\nlocal:\nyes\n',
+    );
+    const html = conversationToHtml(conversation);
+    expect(html).toContain('<title>Tags &lt;b&gt;</title>');
+    expect(html).toContain('<pre>is 1 &lt; 2?</pre>');
+    expect(html).not.toContain('<b>');
+
+    await exportConversation(join(directory, 'chat.txt'), conversation);
+    await exportConversation(join(directory, 'chat.html'), conversation);
+    await exportConversation(join(directory, 'chat.md'), conversation);
+    expect(await readFile(join(directory, 'chat.txt'), 'utf8')).toBe(
+      conversationToText(conversation),
+    );
+    expect(await readFile(join(directory, 'chat.html'), 'utf8')).toBe(html);
+    expect(await readFile(join(directory, 'chat.md'), 'utf8')).toBe(
+      conversationToMarkdown(conversation),
+    );
   });
 });

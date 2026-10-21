@@ -6,4 +6,4 @@ Writes are atomic: Relay Chat writes a private temporary file beside the destina
 
 Conversation JSON can contain prompts, replies, and system instructions. Keep these files out of public repositories when their contents are sensitive. The default `conversations/` directory is ignored by Git.
 
-Markdown exports omit internal identifiers while retaining message order, model labels, errors, and the system prompt.
+Exports omit internal identifiers while retaining message order, model labels, errors, and the system prompt. `/export` chooses the format from the file extension: Markdown by default, plain text for `.txt`, and a standalone page with escaped content for `.html`.
