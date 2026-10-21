@@ -16,22 +16,28 @@ export const enableAutosave = (
   let pending = Promise.resolve();
   let stopped = false;
 
+  const save = (): void => {
+    timer = undefined;
+    const conversation = store.getSnapshot().conversation;
+    pending = pending
+      .then(() => saveConversation(path, conversation))
+      .catch((error: unknown) => options.onError?.(error));
+  };
+
   const schedule = (): void => {
     if (stopped) return;
     if (timer !== undefined) clearTimeout(timer);
-    timer = setTimeout(() => {
-      const conversation = store.getSnapshot().conversation;
-      pending = pending
-        .then(() => saveConversation(path, conversation))
-        .catch((error: unknown) => options.onError?.(error));
-    }, delayMs);
+    timer = setTimeout(save, delayMs);
   };
 
   const unsubscribe = store.subscribe(schedule);
   return async () => {
     stopped = true;
     unsubscribe();
-    if (timer !== undefined) clearTimeout(timer);
+    if (timer !== undefined) {
+      clearTimeout(timer);
+      save();
+    }
     await pending;
   };
 };
