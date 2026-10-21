@@ -66,6 +66,14 @@ export class ChatSession {
     await this.regenerate();
   }
 
+  undo(): string {
+    if (this.isStreaming) throw new Error('Cancel the active reply before undoing a turn.');
+    const message = lastUserMessage(this.#store.getSnapshot().conversation);
+    if (message === undefined) throw new Error('There is no user message to undo.');
+    this.#store.truncateFrom(message.id);
+    return message.content;
+  }
+
   async editAndResend(userMessageId: string, content: string): Promise<void> {
     if (this.isStreaming) throw new Error('A reply is already streaming.');
     const message = this.#store

@@ -95,6 +95,10 @@ export const executeSlashCommand = async (
     case 'regenerate':
       await session.regenerate();
       return;
+    case 'undo':
+      session.undo();
+      store.setNotice('Removed the latest message and its reply.');
+      return;
     case 'theme': {
       const name = chosenPath(command);
       if (name === undefined || !chatThemes.has(name))

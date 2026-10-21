@@ -20,6 +20,27 @@ describe('ChatSession', () => {
     expect(store.getSnapshot().conversation.title).toBe('question');
   });
 
+  it('undoes the latest user turn and its reply', async () => {
+    const store = new ChatStore(createConversation({id: 'c1'}));
+    const session = new ChatSession(
+      store,
+      new EchoTransport({
+        delayMs: 0,
+        response: (request) => `re: ${String(request.messages.length)}`,
+      }),
+    );
+    await session.send('first');
+    await session.send('second');
+    expect(session.undo()).toBe('second');
+    expect(store.getSnapshot().conversation.messages.map(({content}) => content)).toEqual([
+      'first',
+      're: 1',
+    ]);
+    session.undo();
+    expect(store.getSnapshot().conversation.messages).toEqual([]);
+    expect(() => session.undo()).toThrow('There is no user message to undo.');
+  });
+
   it('regenerates without duplicating the user turn', async () => {
     let count = 0;
     const store = new ChatStore(createConversation({id: 'c1'}));

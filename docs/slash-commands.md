@@ -13,6 +13,7 @@
 | `/export [path]`       | Write a Markdown transcript        |
 | `/retry`               | Retry a failed or cancelled reply  |
 | `/regenerate`          | Replace the latest assistant reply |
+| `/undo`                | Remove the latest exchange         |
 | `/theme <relay\|mono>` | Change the terminal palette        |
 | `/stats`               | Show message and token estimates   |
 | `/quit`                | Close the interface                |
