@@ -46,6 +46,8 @@ export const executeSlashCommand = async (
       store.setNotice('Started a new conversation.');
       return;
     case 'clear':
+      if (session.isStreaming)
+        throw new Error('Cancel the active reply before clearing the conversation.');
       store.clearMessages();
       store.setNotice('Conversation cleared.');
       return;
@@ -75,6 +77,8 @@ export const executeSlashCommand = async (
     case 'load': {
       const path = chosenPath(command);
       if (path === undefined) throw new Error('Usage: /load <path>');
+      if (session.isStreaming)
+        throw new Error('Cancel the active reply before loading another conversation.');
       store.replaceConversation(await loadConversation(path));
       store.setNotice(`Loaded ${path}`);
       return;
