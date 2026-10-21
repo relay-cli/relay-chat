@@ -1,10 +1,12 @@
 import {createConversation, estimateConversationTokens} from '../model/index.js';
 import {
+  defaultConversationDirectory,
   defaultConversationPath,
   defaultExportPath,
   exportConversation,
   loadConversation,
   saveConversation,
+  searchConversations,
 } from '../persistence/index.js';
 import type {ChatSession} from '../session/index.js';
 import type {ChatStore} from '../store/index.js';
@@ -99,6 +101,27 @@ export const executeSlashCommand = async (
       session.undo();
       store.setNotice('Removed the latest message and its reply.');
       return;
+    case 'search': {
+      if (command.rest === '') throw new Error('Usage: /search <text>');
+      const directory = defaultConversationDirectory(context.cwd);
+      const results = await searchConversations(directory, command.rest);
+      if (results.length === 0) {
+        store.setNotice(`No saved conversations in ${directory} mention "${command.rest}".`);
+        return;
+      }
+      const plural = results.length === 1 ? '' : 's';
+      const lines = [
+        `${String(results.length)} saved conversation${plural} mention "${command.rest}":`,
+      ];
+      for (const result of results.slice(0, 5)) {
+        lines.push(`${result.title} (${String(result.matches)}) · ${result.path}`);
+        lines.push(`  ${result.excerpt}`);
+      }
+      if (results.length > 5) lines.push(`…and ${String(results.length - 5)} more`);
+      lines.push('Open one with /load <path>.');
+      store.setNotice(lines.join('\n'));
+      return;
+    }
     case 'theme': {
       const name = chosenPath(command);
       if (name === undefined || !chatThemes.has(name))
