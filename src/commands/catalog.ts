@@ -16,6 +16,7 @@ export const commandCatalog: readonly CommandDescription[] = [
   {name: 'export', usage: '/export [path]', description: 'Export the conversation as Markdown.'},
   {name: 'retry', usage: '/retry', description: 'Retry the last failed or cancelled reply.'},
   {name: 'regenerate', usage: '/regenerate', description: 'Replace the latest assistant reply.'},
+  {name: 'undo', usage: '/undo', description: 'Remove the latest message and its reply.'},
   {name: 'theme', usage: '/theme <relay|mono>', description: 'Change the terminal palette.'},
   {name: 'stats', usage: '/stats', description: 'Show message and token estimates.'},
   {name: 'quit', usage: '/quit', description: 'Close Relay Chat.'},
