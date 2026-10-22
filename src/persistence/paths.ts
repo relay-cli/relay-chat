@@ -10,6 +10,9 @@ export const safeFilename = (title: string): string => {
   return normalized.slice(0, 64) || 'conversation';
 };
 
+export const defaultConversationDirectory = (cwd = process.cwd()): string =>
+  resolve(cwd, 'conversations');
+
 export const defaultConversationPath = (title: string, cwd = process.cwd()): string =>
   resolve(cwd, 'conversations', `${safeFilename(title)}.json`);
 

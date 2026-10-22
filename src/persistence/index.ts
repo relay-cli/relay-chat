@@ -4,4 +4,10 @@ export {exportConversation, exportFormatFor} from './export-file.js';
 export {conversationToHtml, conversationToText} from './export-text.js';
 export {loadConversation, saveConversation} from './file-store.js';
 export {parseConversation, serializeConversation} from './json.js';
-export {defaultConversationPath, defaultExportPath, safeFilename} from './paths.js';
+export {searchConversations, type ConversationSearchResult} from './search.js';
+export {
+  defaultConversationDirectory,
+  defaultConversationPath,
+  defaultExportPath,
+  safeFilename,
+} from './paths.js';
